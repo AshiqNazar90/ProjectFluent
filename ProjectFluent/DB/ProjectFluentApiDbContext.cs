@@ -16,23 +16,55 @@ namespace ProjectFluent.DB
         public DbSet<EmployeeAddress> EmployeeAddresses { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Project> Projects { get; set; }
-
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=ProjectFluentDb;Trusted_Connection=True;");
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
 
+            modelBuilder.Entity<Employee>().HasKey(x => x.EmployeeId);//pk
+       
 
-            modelBuilder.Entity<Employee>().HasKey(x => x.EmployeeId)//pk;
-            
-            // one to many relation
-            modelBuilder.Entity<Department>().Has(x => x.Employees).WithOne(x => x.Department)
-                   .HasForeignKey(x => x.DeptId);
+
             //one to one relation
-            modelBuilder.Entity<EmployeeAddress>().HasOne(x => x.Team).WithMany(x => x.Employees)
-                   .HasForeignKey<Team[]>(x => x.TeamId);
+
+            var EmpAd = modelBuilder.Entity<EmployeeAddress>();
+                EmpAd.HasKey(x => x.EmplId);//PK
+                EmpAd.HasOne(x => x.Employee)
+                     .WithOne(x => x.Address)
+                      .HasForeignKey<Employee>(x=>x.EmpId);//fk
+
+            //// many to one relation
+            var dept = modelBuilder.Entity<Department>();
+            dept.HasKey(x => x.DeptId);//pk
+
+              dept.HasMany(x => x.Employees)
+                     .WithOne(x => x.Department)
+                       .HasForeignKey(x => x.DtId);
+
+
+            //one to many relation
+
+            var team = modelBuilder.Entity<Team>();
+            team.HasKey(x => x.TeamId); //pk
+            team.HasMany(x => x.Employees)
+                   .WithOne(x => x.Team)
+                   .HasForeignKey(x => x.TmId);
+
+
             //many to many relation
-            modelBuilder.Entity<Employee>().HasMany(x => x.Projects).WithMany(x => x.Employees).
-                   HasForeignKey<Project>(x => x.ProjectId); ;
+            var pct = modelBuilder.Entity<Project>();
+            pct.HasKey(x => x.ProjectId);
+            pct.HasOne(x => x.Employee)
+               .WithMany(x => x.Projects)
+               .HasForeignKey(x => x.EmplyId);
+            var pct1 = modelBuilder.Entity<Project>();
+            pct1.HasOne(x => x.Department)
+               .WithMany(x => x.Projects)
+               .HasForeignKey(x => x.DepartId);
+
 
         }
 

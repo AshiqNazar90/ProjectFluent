@@ -3,12 +3,18 @@
     public class Project
     {
 
-        public int ProjectId { get; set; }
+        public Guid ProjectId { get; set; }
         public string ProjName { get; set; }
         public string ProgLang { get; set; }
         public string Database { get; set; }
 
         //Navigation Property
-        public virtual ICollection<Employee> Employees { get; set; }=new List<Employee>();
+
+        public Guid? EmplyId { get; set; }
+        public virtual Employee Employee { get; set; }
+
+        public  Guid? DepartId{ get; set; }
+
+        public virtual Department Department { get; set; }
     }
 }

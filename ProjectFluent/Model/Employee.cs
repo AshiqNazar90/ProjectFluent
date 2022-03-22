@@ -2,7 +2,7 @@
 {
     public class Employee
     {
-        public int EmployeeId { get; set; }
+        public Guid EmployeeId { get; set; }
         public string EmpName { get; set; }
         public float Salary { get; set; }
         public string Email { get; set; }
@@ -11,11 +11,16 @@
 
         //Navigation property
 
-        public virtual Department Department { get; set; }
-        public virtual EmployeeAddress EmployeeAddress { get; set; }
 
+        public Guid? EmpId { get; set; }
+        public virtual EmployeeAddress Address { get; set; }
+
+        public Guid? DtId { get; set; }
+        public virtual Department Department { get; set; }
+
+        public Guid? TmId { get; set; }
         public virtual Team Team { get; set; }
-        
+
         public virtual ICollection<Project> Projects { get; set; }=new List<Project>();
 
     }
