@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProjectFluent.DB;
-using ProjectFluent.Model;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,29 +8,24 @@ namespace ProjectFluent.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        ProjectFluentApiDbContext dbcontext;
-        public EmployeeController(ProjectFluentApiDbContext dbcontext)
-        {
-            this.dbcontext = dbcontext;
-
-        }
         // GET: api/<EmployeeController>
         [HttpGet]
-        public void GetAllDeatils()
+        public IEnumerable<string> Get()
         {
-
-            dbcontext.Employees.ToList();
+            return new string[] { "value1", "value2" };
         }
 
-      
+        // GET api/<EmployeeController>/5
+        [HttpGet("{id}")]
+        public string Get(int id)
+        {
+            return "value";
+        }
 
         // POST api/<EmployeeController>
         [HttpPost]
-      public void PutDeatils(Employee employee)
+        public void Post([FromBody] string value)
         {
-            dbcontext.Employees.Add(employee);
-            dbcontext.SaveChanges();    
-
         }
 
         // PUT api/<EmployeeController>/5

@@ -8,18 +8,20 @@ namespace ProjectFluent.DB
 {
     public class ProjectFluentApiDbContext:DbContext
     {
+        public ProjectFluentApiDbContext(DbContextOptions<ProjectFluentApiDbContext> options):base(options)
+        {
 
+        }
        
-
         public DbSet<Department> Departments { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeeAddress> EmployeeAddresses { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Project> Projects { get; set; }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=ProjectFluentDb;Trusted_Connection=True;");
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=ProjectFluentDb;Trusted_Connection=True;");
+        //}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
